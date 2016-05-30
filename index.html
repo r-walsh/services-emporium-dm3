@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="emporium" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ryan's Emporium of Worthless Crap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Sigmar+One|Lato:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="view-styles.css">
+    <link rel="stylesheet" href="component-styles.css">
+</head>
+<body ng-controller="rootCtrl">
+
+<nav>
+	<ul class="nav-list">
+		<li class="nav-item"><h1 class="logo">Ryan's Emporium of Worthless Crap!</h1></li>
+		<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+		<li class="nav-item"><a class="nav-link" href="/">Shop</a></li>
+		<li class="nav-item"><a class="nav-link" href="/">Admin</a></li>
+	</ul>
+</nav>
+
+<button
+	ng-show="!formShow"
+	ng-click="formShow = !formShow"
+	class="show-new-item-form"
+>
+	Add a new item
+</button>
+
+<div ng-if="formShow" class="add-item-form">
+	<h2>Add a new item!</h2>
+	<form>
+		<input
+			ng-model="newItem.name"
+			type="text"
+			placeholder="Item Name"
+		>
+
+		<input
+			ng-model="newItem.price"
+			type="number"
+			placeholder="$4.99"
+		>
+
+		<textarea
+			ng-model="newItem.description"
+			rows="5" cols="45"
+			placeholder="This thing is soooo cool"
+		>
+		</textarea>
+
+		<div class="clear"></div>
+
+		<button
+			ng-click="addItem( newItem )"
+			class="submit-item"
+			type="submit"
+		>
+			Submit
+		</button>
+
+	</form>
+</div>
+
+<div class="search-wrapper">
+    <label>Search my amazing goods:</label>
+
+    <input
+    	ng-model="searchText.name"
+    	type="text"
+    	class="item-search"
+	>
+
+</div>
+
+<div class="clear"></div>
+
+<div class="item-wrapper"
+	 ng-repeat="item in items | filter: searchText"
+	 ng-if="item.inStock"
+>
+	<h2 ng-if="!item.inStock">OUT OF STOCK</h2>
+	<h3 class="item-name">{{ item.name }}</h3>
+	<p class="item-price">{{ item.price | currency }} | {{ item.price * 1.11 | currency:'€' }}</p>
+	<p class="item-description">{{ item.description }}</p>
+	<button class="buy-button">Mark as out of stock</button>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+
+<script src="./src/app.js"></script>
+<script src="./src/rootCtrl.js"></script>
+</body>
+</html>

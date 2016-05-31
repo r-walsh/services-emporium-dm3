@@ -1,45 +1,19 @@
 angular.module( 'emporium' )
-.controller( 'rootCtrl', function( $scope ) {
-
+.controller( 'rootCtrl', function( $scope, itemService, itemFactory ) {
+	console.log( 'rootCtrl instantiated' );
 	$scope.formShow = false;
 
-	$scope.items = [
-		{
-			name: 'rotten log'
-			, description: 'read the name dummy'
-			, price: 14.99
-			, featured: true
-			, inStock: false
-		}
-		, {
-			name: 'slightly used tissue'
-			, description: 'some wear and tear'
-			, price: 36.22
-			, featured: true
-			, inStock: true
-		}
-		, {
-			name: 'ryan\'s personal phone number'
-			, description: 'i probably won\'t answer anyway'
-			, price: 99.99
-			, featured: false
-			, inStock: true
-		}
-		, {
-			name: 'dm2\'s collective tears about toy problems'
-			, description: 'could solve california\'s drought'
-			, price: .99
-			, featured: true
-			, inStock: true
-		}
-	];
+	$scope.getItems = function() {
+		console.log( 'rootCtrl, get items' );
+		$scope.items = itemService.getItems();
+	}
+	$scope.getItems();
 
 	$scope.addItem = function( newItem ) {
-		newItem.inStock = true;
-		newItem.featured = false;
+		console.log( 'rootCtrl addItem' );
+		itemService.addItem( newItem );
 
-		$scope.items.push( newItem );
-
+		$scope.getItems();
 		$scope.formShow = false;
 	};
 
